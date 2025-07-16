@@ -8,7 +8,7 @@ from os import listdir
 demo_video_directory = 'output_json\\demo_video'
 file_base_counter = 0
 
-video_path = 'C:\\Users\\someg\\Videos\\martial_arts\\video.avi'
+video_path = 'videos\\video.avi'
 cap = cv2.VideoCapture(video_path)
 width_resolution = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 height_resolution = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
