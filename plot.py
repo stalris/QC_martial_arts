@@ -101,10 +101,12 @@ for cur_file in files:
   plt.savefig(f"newplots/plot_{ite}.png")  # saves to a folder named 'plots'
   ite=ite+1
   plt.close(fig)
-  # plt.show()
+  # plt.show() DONT UNCOMMENT THIS OR THE PROGRAM WILL LOAD 200+ IMAGES SIMULTANEOUSLY 
+
 #call the video.py file to compile into video
 with open("video.py") as f:
   exec(f.read())
 print("Done!")
+
 # for file in files:
 #     print(file)
