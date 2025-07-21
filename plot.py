@@ -2,13 +2,17 @@ import cv2
 import json
 import numpy as np
 import matplotlib.pyplot as plt
-
+import re 
 from os import listdir
 
-demo_video_directory = 'output_json\\demo_video'
-file_base_counter = 0
 
-video_path = 'videos\\video.avi'
+demo_video_directory = 'output_json1/dd'
+file_base_counter = 0
+with open("clear.py") as f:
+  exec(f.read())
+video_reference = input('Make sure your video is in the vidoes file and then input the name AND extension!: ')
+video_path = f'videos/{video_reference}'
+
 cap = cv2.VideoCapture(video_path)
 width_resolution = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 height_resolution = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -47,36 +51,38 @@ edges = [
   (16, 18)
 ]
 
-# Just open one file for now
-file = f'{demo_video_directory}\\video_{file_base_counter:0>12d}_keypoints.json'
-with open(file) as f:
-  data_dict = json.load(f)
+# Iterate over every file in the given directory.
+def extract_frame_number(filename):
+    match = re.search(r'GX010591_(\d+)_keypoints\.json', filename)
+    return int(match.group(1)) if match else -1
+
+# Get and sort the list of files by frame number
+files = sorted(listdir(demo_video_directory), key=extract_frame_number)
+ite=0
+for cur_file in files: 
+  json_path= f"{demo_video_directory}/{cur_file}"
+
+  with open(json_path) as f:
+    data_dict = json.load(f)
 
   # convert the json into a numpy array.
 
   # An array that will contain numpy arrays representing people.
   people = []
   for person in data_dict['people']:
-    # Grab the keypoints, stored as an array.
-    # See https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/02_output.md
-    # For an explanation on this structure.
+    # Grab the keypoints, stored as an array & Convert to a numpy array.
     keypoints = person['pose_keypoints_2d']
-
-    # Convert to a numpy array.
     np_keypoints = np.array(keypoints)
-
-    # Reshape the array, so its a bunch of 3-tuples
-    # Providing an argument of -1 tells numpy to decide the size of that index based on the
-    # length of the original and the rest of the arguments.
     people.append(np_keypoints.reshape(-1, 3))
-
   # convert the original array into a numpy array.
   people = np.array(people)
-  print(people)
+  # print(people)
+  fig = plt.figure(figsize=(width, height), dpi=dpi)
+ 
+
   # loop over every person
   for person in people:
-
-    # draw only visible nodes, by checking its confidence value
+  # draw only visible nodes, by checking its confidence value
     for keypoint in person:
       if keypoint[2] != 0:
         plt.plot(keypoint[0], keypoint[1], 'o')
@@ -90,10 +96,15 @@ with open(file) as f:
         x_coords = [person[i, 0], person[j, 0]]
         y_coords = [person[i, 1], person[j, 1]]
         plt.plot(x_coords, y_coords, color='red')
-  # plt.gca().invert_yaxis()
-  # plt.xlim(0, width_resolution)
-  # plt.ylim(0, height_resolution)
-  plt.show()
-# Iterate over every file in the given directory.
-# for file in listdir(demo_video_directory):
-#   print(file)
+
+  plt.gca().invert_yaxis()
+  plt.savefig(f"newplots/plot_{ite}.png")  # saves to a folder named 'plots'
+  ite=ite+1
+  plt.close(fig)
+  # plt.show()
+#call the video.py file to compile into video
+with open("video.py") as f:
+  exec(f.read())
+print("Done!")
+# for file in files:
+#     print(file)
