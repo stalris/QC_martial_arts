@@ -5,14 +5,13 @@ import matplotlib.pyplot as plt
 import re 
 from os import listdir
 
-
-demo_video_directory = 'output_json1/dd'
+direct = input('Enter Json Folder you are using (FOLDER MUST BE IN output_json1):')
+demo_video_directory = f'output_json1/{direct}'
 file_base_counter = 0
 with open("clear.py") as f:
   exec(f.read())
 video_reference = input('Make sure your video is in the vidoes file and then input the name AND extension!: ')
 video_path = f'videos/{video_reference}'
-
 cap = cv2.VideoCapture(video_path)
 width_resolution = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 height_resolution = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -53,7 +52,7 @@ edges = [
 
 # Iterate over every file in the given directory.
 def extract_frame_number(filename):
-    match = re.search(r'GX010591_(\d+)_keypoints\.json', filename)
+    match = re.search(r'.*?_(\d+)_keypoints\.json', filename)
     return int(match.group(1)) if match else -1
 
 # Get and sort the list of files by frame number
