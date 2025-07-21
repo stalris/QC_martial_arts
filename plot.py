@@ -8,8 +8,11 @@ from os import listdir
 direct = input('Enter Json Folder you are using (FOLDER MUST BE IN output_json1):')
 demo_video_directory = f'output_json1/{direct}'
 file_base_counter = 0
+
+#call clear.py to clear newplots folder after every use
 with open("clear.py") as f:
   exec(f.read())
+
 video_reference = input('Make sure your video is in the vidoes file and then input the name AND extension!: ')
 video_path = f'videos/{video_reference}'
 cap = cv2.VideoCapture(video_path)

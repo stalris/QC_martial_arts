@@ -3,7 +3,7 @@ import os
 from os import listdir
 # Directory where your plots are saved
 image_folder = 'newplots'
-output_video_path = '/Users/franciscojimenez/Desktop/QC_martial_arts/vid_output/test.mp4'
+output_video_path = 'vid_output/test.mp4'
 
 
 # Get all image filenames and sort them by frame number
