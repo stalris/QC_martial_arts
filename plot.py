@@ -115,8 +115,7 @@ print("Done!")
   # plt.gca().invert_yaxis()
   # plt.xlim(0, width_resolution)
   # plt.ylim(0, height_resolution)
-  plt.gca().invert_yaxis()
-  plt.show()
+
 # Iterate over every file in the given directory.
 # for file in listdir(demo_video_directory):
 #   print(file)
