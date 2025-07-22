@@ -13,7 +13,9 @@ def clear_directory(dir_path):
             print(f"Failed to delete {file_path}. Reason: {e}")
 
 # Example usage:
-directory = 'newplots'  # replace with your directory path
-directory2 = 'vid_output'
-clear_directory(directory)
-clear_directory(directory2)
+def clear_all():
+    directory = 'newplots'  # replace with your directory path
+    directory2 = 'vid_output'
+    clear_directory(directory)
+    clear_directory(directory2)
+clear_all()

@@ -4,14 +4,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re 
 from os import listdir
+from video import make_video
+from clear import clear_all 
 
 direct = input('Enter Json Folder you are using (FOLDER MUST BE IN output_json1):')
 demo_video_directory = f'output_json1/{direct}'
 file_base_counter = 0
 
 #call clear.py to clear newplots folder after every use
-with open("clear.py") as f:
-  exec(f.read())
+
+clear_all()
 
 video_reference = input('Make sure your video is in the vidoes file and then input the name AND extension!: ')
 video_path = f'videos/{video_reference}'
@@ -106,8 +108,8 @@ for cur_file in files:
   # plt.show() DONT UNCOMMENT THIS OR THE PROGRAM WILL LOAD 200+ IMAGES SIMULTANEOUSLY 
 
 #call the video.py file to compile into video
-with open("video.py") as f:
-  exec(f.read())
+
+make_video()
 print("Done!")
 
 # for file in files:
