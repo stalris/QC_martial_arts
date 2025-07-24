@@ -102,6 +102,10 @@ for cur_file in files:
         plt.plot(x_coords, y_coords, color='red')
 
   plt.gca().invert_yaxis()
+  plt.xlim(800, 3700)
+  plt.ylim(2100, 300)  # Inverted y-axis
+
+
   plt.savefig(f"newplots/plot_{ite}.png")  # saves to a folder named 'plots'
   ite=ite+1
   plt.close(fig)
@@ -109,7 +113,7 @@ for cur_file in files:
 
 #call the video.py file to compile into video
 
-make_video()
+make_video(direct)
 print("Done!")
 
 # for file in files:

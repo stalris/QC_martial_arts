@@ -1,10 +1,10 @@
 import cv2
 import os
 from os import listdir
-def make_video():
+def make_video(name):
     # Directory where your plots are saved
     image_folder = 'newplots'
-    output_video_path = 'vid_output/test.mp4'
+    output_video_path = f'vid_output/{name}.mp4'
 
 
     # Get all image filenames and sort them by frame number

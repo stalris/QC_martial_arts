@@ -15,7 +15,7 @@ def clear_directory(dir_path):
 # Example usage:
 def clear_all():
     directory = 'newplots'  # replace with your directory path
-    directory2 = 'vid_output'
+    # directory2 = 'vid_output'
     clear_directory(directory)
-    clear_directory(directory2)
+    # clear_directory(directory2)
 clear_all()
