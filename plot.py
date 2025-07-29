@@ -4,14 +4,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re 
 from os import listdir
+from video import make_video
+from clear import clear_all 
 
 direct = input('Enter Json Folder you are using (FOLDER MUST BE IN output_json1):')
 demo_video_directory = f'output_json1/{direct}'
 
 # TODO: make this a module
 #call clear.py to clear newplots folder after every use
+<<<<<<< HEAD
 # with open("clear.py") as f:
 #   exec(f.read())
+=======
+
+clear_all()
+>>>>>>> d431ce54e96d5db3c86e062a1480e97e47647d06
 
 video_reference = input('Make sure your video is in the vidoes file and then input the name AND extension!: ')
 video_path = f'videos/{video_reference}'
@@ -105,14 +112,18 @@ for cur_file in files:
         plt.plot(x_coords, y_coords, color='red')
 
   plt.gca().invert_yaxis()
+  plt.xlim(800, 3700)
+  plt.ylim(2100, 300)  # Inverted y-axis
+
+
   plt.savefig(f"newplots/plot_{ite}.png")  # saves to a folder named 'plots'
   ite=ite+1
   plt.close(fig)
   # plt.show() DONT UNCOMMENT THIS OR THE PROGRAM WILL LOAD 200+ IMAGES SIMULTANEOUSLY 
 
 #call the video.py file to compile into video
-with open("video.py") as f:
-  exec(f.read())
+
+make_video(direct)
 print("Done!")
 
 # for file in files:
@@ -120,8 +131,12 @@ print("Done!")
   # plt.gca().invert_yaxis()
   # plt.xlim(0, width_resolution)
   # plt.ylim(0, height_resolution)
+<<<<<<< HEAD
   # plt.gca().invert_yaxis()
   # plt.show()
+=======
+
+>>>>>>> d431ce54e96d5db3c86e062a1480e97e47647d06
 # Iterate over every file in the given directory.
 # for file in listdir(demo_video_directory):
 #   print(file)
