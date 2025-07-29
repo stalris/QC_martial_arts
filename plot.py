@@ -7,25 +7,35 @@ from os import listdir
 
 direct = input('Enter Json Folder you are using (FOLDER MUST BE IN output_json1):')
 demo_video_directory = f'output_json1/{direct}'
-file_base_counter = 0
 
+# TODO: make this a module
 #call clear.py to clear newplots folder after every use
-with open("clear.py") as f:
-  exec(f.read())
+# with open("clear.py") as f:
+#   exec(f.read())
 
 video_reference = input('Make sure your video is in the vidoes file and then input the name AND extension!: ')
 video_path = f'videos/{video_reference}'
-cap = cv2.VideoCapture(video_path)
-width_resolution = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-height_resolution = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-cap.release()
 
+# Iterate over every file in the given directory.
+# Finds all the json files that contains keypoints that OpenPose produces as output.
+def extract_frame_number(filename):
+    match = re.search(r'.*?_(\d+)_keypoints\.json', filename)
+    return int(match.group(1)) if match else -1
+
+# Grab the dimensions of the video you're examining.
+def getDimensions(video_path):
+  capture = cv2.VideoCapture(video_path)
+  width = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+  height = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
+  capture.release()
+  return width,height
+
+# Create a figure in matplotlib with the specified dimensions.
 dpi = 100
-width = width_resolution / dpi
-height = height_resolution / dpi
+width, height = getDimensions(video_path)
+fig = plt.figure(figsize=(width / dpi, height / dpi), dpi=dpi)
 
-fig = plt.figure(figsize=(width, height), dpi=dpi)
-
+# Edges for the keypoints, per the openpose documentation.
 edges = [
   (0, 1),
   (1, 2),
@@ -53,24 +63,22 @@ edges = [
   (16, 18)
 ]
 
-# Iterate over every file in the given directory.
-def extract_frame_number(filename):
-    match = re.search(r'.*?_(\d+)_keypoints\.json', filename)
-    return int(match.group(1)) if match else -1
 
 # Get and sort the list of files by frame number
 files = sorted(listdir(demo_video_directory), key=extract_frame_number)
 ite=0
 for cur_file in files: 
-  json_path= f"{demo_video_directory}/{cur_file}"
 
+  # Open each json file
+  json_path= f"{demo_video_directory}/{cur_file}"
   with open(json_path) as f:
     data_dict = json.load(f)
 
   # convert the json into a numpy array.
-
   # An array that will contain numpy arrays representing people.
   people = []
+
+  
   for person in data_dict['people']:
     # Grab the keypoints, stored as an array & Convert to a numpy array.
     keypoints = person['pose_keypoints_2d']
@@ -78,9 +86,6 @@ for cur_file in files:
     people.append(np_keypoints.reshape(-1, 3))
   # convert the original array into a numpy array.
   people = np.array(people)
-  # print(people)
-  fig = plt.figure(figsize=(width, height), dpi=dpi)
- 
 
   # loop over every person
   for person in people:
@@ -115,8 +120,8 @@ print("Done!")
   # plt.gca().invert_yaxis()
   # plt.xlim(0, width_resolution)
   # plt.ylim(0, height_resolution)
-  plt.gca().invert_yaxis()
-  plt.show()
+  # plt.gca().invert_yaxis()
+  # plt.show()
 # Iterate over every file in the given directory.
 # for file in listdir(demo_video_directory):
 #   print(file)
